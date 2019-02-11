@@ -1,0 +1,46 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Edit {{restaurant.name}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form (ngSubmit)="updateRestaurant()" #formRestaurant="ngForm">
+        <ion-item>
+            <ion-label>Name:</ion-label>
+            <ion-input type="text" [(ngModel)]="restaurant.name" name="name"
+                       required maxlength="50"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Brief descript:</ion-label>
+            <ion-input type="text" [(ngModel)]="restaurant.briefDescription" name="briefDescription"
+                       required maxlength="100"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Description:</ion-label>
+            <ion-textarea type="text" [(ngModel)]="restaurant.description" name="description"
+                       required maxlength="500"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label>Address:</ion-label>
+            <ion-textarea type="text" [(ngModel)]="restaurant.address" name="address"
+                       required maxlength="200"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label>Phone:</ion-label>
+            <ion-input type="text" [(ngModel)]="restaurant.phone" name="phone"
+                       required maxlength="20"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Tag's:</ion-label>
+            <ion-input type="text" [(ngModel)]="restaurant.tags" name="tags"
+                       required maxlength="200"></ion-input>
+        </ion-item>
+        <br/>
+        <br/>
+        <div style="text-align: center;float: bottom;">
+            <ion-button color="light" (click)="back()">Back</ion-button>
+            <ion-button color="primary" type="submit" [disabled]="!formRestaurant.form.valid">Save</ion-button>
+        </div>
+    </form>
+</ion-content>

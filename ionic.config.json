@@ -1,5 +1,7 @@
 {
   "name": "RestaurantGuide",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

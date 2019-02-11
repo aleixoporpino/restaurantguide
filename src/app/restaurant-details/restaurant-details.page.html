@@ -1,0 +1,78 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{restaurant.name}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button>
+            <ion-icon name="more">
+            </ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+            <ion-fab-button href="/restaurant-edit/{{restaurant.id}}">
+                <ion-icon name="create"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="presentAlertConfirm()">
+                <ion-icon name="trash"></ion-icon>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+    <ion-item>
+        <ion-label>Name:</ion-label>
+        <ion-input type="text" value="{{restaurant.name}}" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Brief description:</ion-label>
+        <ion-input type="text" value="{{restaurant.briefDescription}}" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Description:</ion-label>
+        <ion-textarea type="text" value="{{restaurant.description}}" disabled></ion-textarea>
+    </ion-item>
+    <ion-item>
+        <ion-label>Address:</ion-label>
+        <ion-textarea type="text" value="{{restaurant.address}}" disabled></ion-textarea>
+    </ion-item>
+    <ion-item>
+        <ion-label>Phone:</ion-label>
+        <ion-input type="text" value="{{restaurant.phone}}" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Tag`s:</ion-label>
+        <ion-input type="text" value="{{restaurant.tags}}" disabled></ion-input>
+    </ion-item>
+    <div style="text-align: center">
+        <ion-icon name="{{restaurant.stars >= 1 ? 'star' : 'star-outline'}}" class="star-button"
+                  (click)="clickStar(1)"></ion-icon>
+        <ion-icon name="{{restaurant.stars >= 2 ? 'star' : 'star-outline'}}" class="star-button"
+                  (click)="clickStar(2)"></ion-icon>
+        <ion-icon name="{{restaurant.stars >= 3 ? 'star' : 'star-outline'}}" class="star-button"
+                  (click)="clickStar(3)"></ion-icon>
+        <ion-icon name="{{restaurant.stars >= 4 ? 'star' : 'star-outline'}}" class="star-button"
+                  (click)="clickStar(4)"></ion-icon>
+        <ion-icon name="{{restaurant.stars >= 5 ? 'star' : 'star-outline'}}" class="star-button"
+                  (click)="clickStar(5)"></ion-icon>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <div style="text-align: center;float: bottom;">
+        <ion-icon name="mail" style="font-size:3em;color: #BDBDBD;padding-right: 20px;cursor:pointer"
+                  (click)="shareOnEmail()"></ion-icon>
+        <ion-icon name="logo-facebook" style="font-size:3em;color:#4867AA;padding-right: 20px;cursor:pointer"
+                  (click)="shareOnFacebook()"></ion-icon>
+        <ion-icon name="logo-twitter" style="font-size:3em;color: #1DA1F2;padding-right: 20px;cursor:pointer"
+                  (click)="shareOnTwitter()"></ion-icon>
+        <ion-icon name="logo-whatsapp" style="font-size:3em;color: #2ac57b;;cursor:pointer"
+                  (click)="shareOnWhatsapp()"></ion-icon>
+    </div>
+    <br/>
+    <br/>
+    <div style="text-align: center;float: bottom;">
+        <ion-button color="light" (click)="back()">Back</ion-button>
+    </div>
+</ion-content>
