@@ -10,6 +10,8 @@ import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
+import {GoogleMap, GoogleMaps} from '@ionic-native/google-maps';
+
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, AfterContentInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 import {AlertController, NavController} from '@ionic/angular';
@@ -10,7 +10,7 @@ import {
     CameraPosition,
     MarkerOptions,
     Marker,
-    Environment
+    Environment, GoogleMapsAnimation, MyLocation
 } from '@ionic-native/google-maps';
 
 
@@ -22,7 +22,8 @@ import {Restaurant} from '../model/restaurant.model';
     templateUrl: './restaurant-details.page.html',
     styleUrls: ['./restaurant-details.page.scss'],
 })
-export class RestaurantDetailsPage implements OnInit {
+export class RestaurantDetailsPage implements OnInit, AfterViewInit {
+    mapReady = false;
     map: GoogleMap;
     restaurant: Restaurant = new Restaurant();
 
@@ -34,11 +35,19 @@ export class RestaurantDetailsPage implements OnInit {
                 private alertController: AlertController) {
     }
 
-    ionViewDidLoad() {
+
+    ngOnInit() {
+        this.restaurantService.findById(this.activatedRoute.snapshot.paramMap.get('id'))
+            .subscribe(res => this.restaurant = res);
+
+    }
+
+    ngAfterViewInit() {
         this.loadMap();
     }
 
     loadMap() {
+
         // This code is necessary for browser
         Environment.setEnv({
             'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyDmAZZJfPS88fSw34ZrFcKMOp1cOUb2tcI',
@@ -72,10 +81,6 @@ export class RestaurantDetailsPage implements OnInit {
         });
     }
 
-    ngOnInit() {
-        this.restaurantService.findById(this.activatedRoute.snapshot.paramMap.get('id'))
-            .subscribe(res => this.restaurant = res);
-    }
 
     async presentAlertConfirm() {
         const alert = await this.alertController.create({

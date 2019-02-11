@@ -44,6 +44,7 @@
         <ion-label>Tag`s:</ion-label>
         <ion-input type="text" value="{{restaurant.tags}}" disabled></ion-input>
     </ion-item>
+
     <div style="text-align: center">
         <ion-icon name="{{restaurant.stars >= 1 ? 'star' : 'star-outline'}}" class="star-button"
                   (click)="clickStar(1)"></ion-icon>
@@ -74,5 +75,9 @@
     <br/>
     <div style="text-align: center;float: bottom;">
         <ion-button color="light" (click)="back()">Back</ion-button>
+    </div>
+
+    <div id="map_canvas" style="height: 100%; width: 100%" >
+        <ion-button (click)="onButtonClick($event)">Demo</ion-button>
     </div>
 </ion-content>
