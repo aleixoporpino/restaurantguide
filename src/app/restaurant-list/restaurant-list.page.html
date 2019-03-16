@@ -26,9 +26,9 @@
             <p style="padding-top: 10px">{{res.address}}</p>
             <p>{{res.phone}}</p>
             <p>tag's: {{res.tags}}</p>
-            <ion-icon *ngIf="res.favorite" name="star" slot="start" style="color:#dca700;font-size: 40px;float: right"
+            <ion-icon *ngIf="res.favorite" name="heart" slot="start" style="color:#dc0054;font-size: 40px;float: right"
                       (click)="clickFavorite(res)"></ion-icon>
-            <ion-icon *ngIf="!res.favorite" name="star-outline" slot="start"
+            <ion-icon *ngIf="!res.favorite" name="heart-empty" slot="start"
                       style="color:#dca700;font-size: 40px;float: right"
                       (click)="clickFavorite(res)"></ion-icon>
         </ion-card-content>
