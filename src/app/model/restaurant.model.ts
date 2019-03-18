@@ -8,4 +8,6 @@ export class Restaurant {
     tags: string;
     favorite: boolean;
     stars: number;
+    latitude: number;
+    longitude: number;
 }

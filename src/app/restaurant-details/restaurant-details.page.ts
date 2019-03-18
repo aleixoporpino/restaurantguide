@@ -1,29 +1,20 @@
-import {AfterViewInit, Component, OnInit, AfterContentInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 import {AlertController, NavController} from '@ionic/angular';
-import {
-    GoogleMaps,
-    GoogleMap,
-    GoogleMapsEvent,
-    GoogleMapOptions,
-    CameraPosition,
-    MarkerOptions,
-    Marker,
-    Environment, GoogleMapsAnimation, MyLocation
-} from '@ionic-native/google-maps';
+import {GoogleMap, GoogleMapOptions, GoogleMaps, Marker} from '@ionic-native/google-maps';
 
 
 import {RestaurantService} from '../restaurant/restaurant.service';
 import {Restaurant} from '../model/restaurant.model';
+import {File} from '@ionic-native/file/ngx';
 
 @Component({
     selector: 'app-restaurant-details',
     templateUrl: './restaurant-details.page.html',
     styleUrls: ['./restaurant-details.page.scss'],
 })
-export class RestaurantDetailsPage implements OnInit, AfterViewInit {
-    mapReady = false;
+export class RestaurantDetailsPage implements OnInit {
     map: GoogleMap;
     restaurant: Restaurant = new Restaurant();
 
@@ -32,7 +23,8 @@ export class RestaurantDetailsPage implements OnInit, AfterViewInit {
                 private router: Router,
                 private socialSharing: SocialSharing,
                 private navCtrl: NavController,
-                private alertController: AlertController) {
+                private alertController: AlertController,
+                private file: File) {
     }
 
 
@@ -42,25 +34,24 @@ export class RestaurantDetailsPage implements OnInit, AfterViewInit {
 
     }
 
-    ngAfterViewInit() {
+    ionViewDidEnter() {
         this.loadMap();
     }
 
     loadMap() {
 
         // This code is necessary for browser
-        Environment.setEnv({
-            'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyDmAZZJfPS88fSw34ZrFcKMOp1cOUb2tcI',
-            'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyDmAZZJfPS88fSw34ZrFcKMOp1cOUb2tcI'
-        });
-
+        // Environment.setEnv({
+        //    'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyDmAZZJfPS88fSw34ZrFcKMOp1cOUb2tcI',
+        //    'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyDmAZZJfPS88fSw34ZrFcKMOp1cOUb2tcI'
+        // });
         const mapOptions: GoogleMapOptions = {
             camera: {
                 target: {
-                    lat: 43.0741904,
-                    lng: -89.3809802
+                    lat: this.restaurant.latitude,
+                    lng: this.restaurant.longitude
                 },
-                zoom: 18,
+                zoom: 15,
                 tilt: 30
             }
         };
@@ -68,17 +59,17 @@ export class RestaurantDetailsPage implements OnInit, AfterViewInit {
         this.map = GoogleMaps.create('map_canvas', mapOptions);
 
         const marker: Marker = this.map.addMarkerSync({
-            title: 'Ionic',
-            icon: 'blue',
+            title: this.restaurant.name,
+            snippet: this.restaurant.address,
+            icon: 'red',
             animation: 'DROP',
             position: {
-                lat: 43.0741904,
-                lng: -89.3809802
+                lat: this.restaurant.latitude,
+                lng: this.restaurant.longitude
             }
         });
-        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-            alert('clicked');
-        });
+
+        marker.showInfoWindow();
     }
 
 
@@ -113,28 +104,46 @@ export class RestaurantDetailsPage implements OnInit, AfterViewInit {
         this.navCtrl.back();
     }
 
-    shareOnFacebook() {
-        this.socialSharing.shareViaFacebook('See this restaurant', null, null).then(() => {
+    async shareOnFacebook() {
+        const file = await this.resolveLocalFile();
+        this.socialSharing.shareViaFacebook('See this restaurant ' + this.restaurant.name
+            , file.nativeURL, this.restaurant.address).then(() => {
             console.log('shared via facebook');
+            this.removeTempFile(file.name);
         });
     }
 
-    shareOnEmail() {
-        this.socialSharing.shareViaEmail('See this restaurant', null, null).then(() => {
+    async shareOnEmail() {
+        const file = await this.resolveLocalFile();
+        this.socialSharing.shareViaEmail('See this restaurant ' + this.restaurant.name,
+            'Restaurant Guide - ' + this.restaurant.name, null, null, null, file.nativeURL).then(() => {
             console.log('shared via e-mail');
+            this.removeTempFile(file.name);
         });
     }
 
     shareOnTwitter() {
-        this.socialSharing.shareViaTwitter('See this restaurant', null, null).then(() => {
+        this.socialSharing.shareViaTwitter('See this restaurant ' + this.restaurant.name,
+            `${this.file.applicationDirectory}www/assets/icon/favicon.png`).then(() => {
             console.log('shared via twitter');
         });
     }
 
-    shareOnWhatsapp() {
-        this.socialSharing.shareViaWhatsApp('See this restaurant', null, null).then(() => {
+    async shareOnWhatsapp() {
+        const file = await this.resolveLocalFile();
+        this.socialSharing.shareViaWhatsApp('See this restaurant ' + this.restaurant.name, file.nativeURL, null).then(() => {
             console.log('shared via whatsapp');
+            this.removeTempFile(file.name);
         });
+    }
+
+    async resolveLocalFile() {
+        return this.file.copyFile(`${this.file.applicationDirectory}www/assets/icon/`,
+            'favicon.png', this.file.cacheDirectory, `${new Date().getTime()}.png`);
+    }
+
+    removeTempFile(name) {
+        this.file.removeFile(this.file.cacheDirectory, name);
     }
 
     clickStar(number: number) {

@@ -3,6 +3,7 @@ import {Restaurant} from '../model/restaurant.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RestaurantService} from '../restaurant/restaurant.service';
 import {NavController} from '@ionic/angular';
+import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder/ngx';
 
 @Component({
     selector: 'app-restaurant-edit',
@@ -15,7 +16,8 @@ export class RestaurantEditPage implements OnInit {
 
     constructor(private restaurantService: RestaurantService,
                 private activatedRoute: ActivatedRoute,
-                private navCtrl: NavController) {
+                private navCtrl: NavController,
+                private nativeGeocoder: NativeGeocoder) {
     }
 
     ngOnInit() {
@@ -28,12 +30,22 @@ export class RestaurantEditPage implements OnInit {
     }
 
     updateRestaurant() {
-        this.restaurantService.update(this.restaurant).subscribe(res => {
-            if (res.errorCode !== 0) {
-                alert('An unexpected error ocurred, please contact the system`s administrator');
-            } else {
-                this.navCtrl.back();
-            }
-        });
+        const options: NativeGeocoderOptions = {
+            useLocale: true,
+            maxResults: 1
+        };
+        this.nativeGeocoder.forwardGeocode(this.restaurant.address, options)
+            .then((coordinates: NativeGeocoderForwardResult[]) => {
+                this.restaurant.latitude = Number(coordinates[0].latitude);
+                this.restaurant.longitude = Number(coordinates[0].longitude);
+                this.restaurantService.update(this.restaurant).subscribe(res => {
+                    if (res.errorCode !== 0) {
+                        alert('An unexpected error occurred, please contact the system`s administrator');
+                    } else {
+                        this.navCtrl.back();
+                    }
+                });
+            })
+            .catch((error: any) => console.log(error));
     }
 }

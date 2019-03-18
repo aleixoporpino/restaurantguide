@@ -22,6 +22,9 @@ export class RestaurantListPage implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ionViewDidEnter() {
         this.listAllRestaurants();
     }
 
@@ -58,6 +61,7 @@ export class RestaurantListPage implements OnInit {
             if (value.errorCode !== 0) {
                 alert('Something unexpected happened, please contact the system`s administrator');
             }
+            this.listAllRestaurants();
         });
     }
 }

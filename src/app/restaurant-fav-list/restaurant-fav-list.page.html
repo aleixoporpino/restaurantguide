@@ -1,37 +1,40 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Favorites restaurant</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Favorites restaurant</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button href="/restaurant">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-  <ion-searchbar id="search" (search)="findByFavoritesNameOrTags($event)"
-                 maxlength="50" showCancelButton
-                 debounce="500" animated
-                 placeholder="Search your restaurants"></ion-searchbar>
-  <ion-card class="welcome-card" *ngFor="let res of restaurants" (click)="clickDetails(res.id)"
-            style="cursor: pointer;padding-bottom: 10px;margin-bottom: 25px">
-    <ion-card-header color="primary">
-      <ion-card-title>{{res.name}}
-        <ion-icon name="pin" slot="start"></ion-icon>
-      </ion-card-title>
-      <ion-card-subtitle>{{res.briefDescription}}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p style="padding-top: 10px">{{res.address}}</p>
-      <p>{{res.phone}}</p>
-      <p>tag's: {{res.tags}}</p>
-      <ion-icon *ngIf="res.favorite" name="heart" slot="start" style="color:#dc0054;font-size: 40px;float: right"
-                (click)="clickFavorite(res)"></ion-icon>
-      <ion-icon *ngIf="!res.favorite" name="heart-empty" slot="start"
-                style="color:#dc0054;font-size: 40px;float: right"
-                (click)="clickFavorite(res)"></ion-icon>
-    </ion-card-content>
-  </ion-card>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button href="/restaurant">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-searchbar id="search" (search)="findByFavoritesNameOrTags($event)"
+                   maxlength="50" showCancelButton
+                   debounce="500" animated
+                   placeholder="Search your restaurants"></ion-searchbar>
+    <ion-card class="welcome-card" *ngFor="let res of restaurants" (click)="clickDetails(res.id)"
+              style="cursor: pointer;padding-bottom: 10px;margin-bottom: 25px">
+        <ion-card-header color="primary">
+            <ion-card-title>{{res.name}}
+                <ion-icon name="pin" slot="start"></ion-icon>
+            </ion-card-title>
+            <ion-card-subtitle>{{res.briefDescription}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <p style="padding-top: 10px">{{res.address}}</p>
+            <p>{{res.phone}}</p>
+            <p>tag's: {{res.tags}}</p>
+            <ion-icon *ngIf="res.favorite" name="heart" slot="start" style="color:#dc0054;font-size: 40px;float: right"
+                      (click)="clickFavorite(res)"></ion-icon>
+            <ion-icon *ngIf="!res.favorite" name="heart-empty" slot="start"
+                      style="color:#dc0054;font-size: 40px;float: right"
+                      (click)="clickFavorite(res)"></ion-icon>
+        </ion-card-content>
 
+
+    </ion-card>
+    <div id="map_canvas" style="height: 100%; width: 100%">
+    </div>
 </ion-content>
