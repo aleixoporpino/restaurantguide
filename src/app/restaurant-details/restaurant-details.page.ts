@@ -106,8 +106,8 @@ export class RestaurantDetailsPage implements OnInit {
 
     async shareOnFacebook() {
         const file = await this.resolveLocalFile();
-        this.socialSharing.shareViaFacebook('See this restaurant ' + this.restaurant.name
-            , file.nativeURL, this.restaurant.address).then(() => {
+        this.socialSharing.shareViaFacebook('See this restaurant: ' + this.restaurant.name
+            , this.restaurant.url, this.restaurant.address).then(() => {
             console.log('shared via facebook');
             this.removeTempFile(file.name);
         });
@@ -115,7 +115,7 @@ export class RestaurantDetailsPage implements OnInit {
 
     async shareOnEmail() {
         const file = await this.resolveLocalFile();
-        this.socialSharing.shareViaEmail('See this restaurant ' + this.restaurant.name,
+        this.socialSharing.shareViaEmail('See this restaurant: ' + this.restaurant.name,
             'Restaurant Guide - ' + this.restaurant.name, null, null, null, file.nativeURL).then(() => {
             console.log('shared via e-mail');
             this.removeTempFile(file.name);
@@ -123,7 +123,7 @@ export class RestaurantDetailsPage implements OnInit {
     }
 
     shareOnTwitter() {
-        this.socialSharing.shareViaTwitter('See this restaurant ' + this.restaurant.name,
+        this.socialSharing.shareViaTwitter('See this restaurant: ' + this.restaurant.name,
             `${this.file.applicationDirectory}www/assets/icon/favicon.png`).then(() => {
             console.log('shared via twitter');
         });
@@ -131,7 +131,7 @@ export class RestaurantDetailsPage implements OnInit {
 
     async shareOnWhatsapp() {
         const file = await this.resolveLocalFile();
-        this.socialSharing.shareViaWhatsApp('See this restaurant ' + this.restaurant.name, file.nativeURL, null).then(() => {
+        this.socialSharing.shareViaWhatsApp('See this restaurant: ' + this.restaurant.name, file.nativeURL, this.restaurant.url).then(() => {
             console.log('shared via whatsapp');
             this.removeTempFile(file.name);
         });

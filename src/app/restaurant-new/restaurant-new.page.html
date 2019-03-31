@@ -17,14 +17,9 @@
                        required maxlength="50"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label>Description:</ion-label>
-            <ion-textarea type="text" [(ngModel)]="restaurant.description" name="description"
-                       required maxlength="500"></ion-textarea>
-        </ion-item>
-        <ion-item>
             <ion-label>Address:</ion-label>
             <ion-textarea type="text" [(ngModel)]="restaurant.address" name="address"
-                       required maxlength="200"></ion-textarea>
+                          required maxlength="200"></ion-textarea>
         </ion-item>
         <ion-item>
             <ion-label>Phone:</ion-label>
@@ -35,6 +30,10 @@
             <ion-label>Tag's:</ion-label>
             <ion-input type="text" [(ngModel)]="restaurant.tags" name="tags"
                        required maxlength="200"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>URL:</ion-label>
+            <ion-input type="text" value="{{restaurant.url}}" name="url" maxlength="500"></ion-input>
         </ion-item>
         <br/>
         <br/>
